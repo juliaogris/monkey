@@ -18,7 +18,7 @@ func Start(in io.Reader, out io.Writer) {
 	env := object.NewEnvironment()
 
 	for {
-		fmt.Fprintf(out, PROMPT)
+		fmt.Fprint(out, PROMPT) //nolint:errcheck
 		scanned := scanner.Scan()
 		if !scanned {
 			return
@@ -36,8 +36,8 @@ func Start(in io.Reader, out io.Writer) {
 
 		evaluated := evaluator.Eval(program, env)
 		if evaluated != nil {
-			io.WriteString(out, evaluated.Inspect())
-			io.WriteString(out, "\n")
+			io.WriteString(out, evaluated.Inspect()) //nolint:errcheck
+			io.WriteString(out, "\n")                //nolint:errcheck
 		}
 	}
 }
@@ -56,10 +56,10 @@ const MONKEY_FACE = `            __,__
 `
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, MONKEY_FACE)
-	io.WriteString(out, "Woops! We ran into some monkey business here!\n")
-	io.WriteString(out, " parser errors:\n")
+	io.WriteString(out, MONKEY_FACE)                                       //nolint:errcheck
+	io.WriteString(out, "Woops! We ran into some monkey business here!\n") //nolint:errcheck
+	io.WriteString(out, " parser errors:\n")                               //nolint:errcheck
 	for _, msg := range errors {
-		io.WriteString(out, "\t"+msg+"\n")
+		io.WriteString(out, "\t"+msg+"\n") //nolint:errcheck
 	}
 }
